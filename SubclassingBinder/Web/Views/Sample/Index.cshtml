@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Web.ReferenceModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>List of references</title>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
+

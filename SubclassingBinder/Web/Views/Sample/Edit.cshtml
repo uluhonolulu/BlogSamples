@@ -1,0 +1,23 @@
+﻿@model Web.ReferenceModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Edit</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("UpdateReference", "Sample")) {
+			@Html.EditorForModel()
+			<button>Update</button>
+		}
+		
+		
+	</div>
+</body>
+</html>
