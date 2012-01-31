@@ -10,10 +10,16 @@ namespace Web {
 
 	public class ArticleModel : ReferenceModel {
 		public string ArticleName { get; set; }
+		public override string ToString() {
+			return this.ArticleName;
+		}
 	}
 
 	public class WebPageModel : ReferenceModel {
 		public string Url { get; set; }
+		public override string ToString() {
+			return this.Url;
+		}
 	}
 
 	public static class DAL {

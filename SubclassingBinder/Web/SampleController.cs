@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace Web {
 	public class SampleController : Controller {
 		public ActionResult Index() {
-			return View();
+			return View(DAL.GetData());
 		}
 
 		public ActionResult Edit(int id) {
