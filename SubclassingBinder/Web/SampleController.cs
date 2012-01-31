@@ -11,7 +11,8 @@ namespace Web {
 		}
 
 		public ActionResult Edit(int id) {
-			return null;
+			var model = DAL.GetData().SingleOrDefault(m => m.Id == id);
+			return View(model);
 		}
 
 		[HttpPost]

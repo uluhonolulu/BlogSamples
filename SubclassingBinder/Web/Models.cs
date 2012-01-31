@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Web {
 	public abstract class ReferenceModel {
+		[HiddenInput(DisplayValue = false)]
 		public int Id { get; set; }
 	}
 
