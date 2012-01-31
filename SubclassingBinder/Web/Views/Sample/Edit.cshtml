@@ -15,6 +15,7 @@
     <div>
         @using (Html.BeginForm("UpdateReference", "Sample")) {
 			@Html.EditorForModel()
+			@Html.Hidden("ModelType", Model.GetType())
 			<button>Update</button>
 		}
 		
