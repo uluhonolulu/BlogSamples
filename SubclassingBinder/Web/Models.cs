@@ -32,7 +32,13 @@ namespace Web {
 		    };
 
 		public static IEnumerable<ReferenceModel> GetData() {
-			return _data;
+			return _data.OrderBy(m => m.Id);
 		} 
+
+		public static void Update(ReferenceModel model) {
+			var existingModel = _data.Single(m => m.Id == model.Id);
+			_data.Remove(existingModel);
+			_data.Add(model);
+		}
 	}
 }

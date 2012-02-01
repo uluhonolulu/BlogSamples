@@ -16,8 +16,10 @@ namespace Web {
 		}
 
 		[HttpPost]
-		public ActionResult UpdateReference() {
-			return null;
+		public ActionResult UpdateReference([ModelBinder(typeof(SubclassingBinder))] ReferenceModel model) {
+			//process your updates
+			DAL.Update(model);
+			return RedirectToAction("Index");
 		}
 	}
 }
