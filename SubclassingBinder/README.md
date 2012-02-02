@@ -1,0 +1,1 @@
+Source code for http://ivonna.biz/blog/2012/2/2/custom-aspnet-model-binders-series,-part-3-subclassing-your-models.aspx
