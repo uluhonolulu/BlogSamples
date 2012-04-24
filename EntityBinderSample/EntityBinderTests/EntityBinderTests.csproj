@@ -51,10 +51,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Ivonna">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Ivonna.Framework.MVC.3, Version=3.0.5.39775, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Ivonna.Framework.MVC.3, Version=3.0.2.38152, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -64,11 +76,15 @@
     <Reference Include="TypeMock">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="TypeMock.ArrangeActAssert">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="CThru">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinderTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +108,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntityBinderSampleWeb\EntityBinderSampleWeb.csproj">
+      <Project>{A35D33D7-28A8-4A89-99E5-7FD695B98214}</Project>
+      <Name>EntityBinderSampleWeb</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

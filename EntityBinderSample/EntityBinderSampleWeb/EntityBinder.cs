@@ -64,7 +64,7 @@ namespace EntityBinderSampleWeb {
 			var session = ObjectFactory.GetInstance<ISession>();
 			if (entityType.IsArray) {
 				var realType = entityType.GetElementType();
-				var instances = from idString in (string[]) result.RawValue select session.Get(realType, GetId(idString, fieldName)));
+				var instances = from idString in (string[]) result.RawValue select session.Get(realType, GetId(idString, fieldName));
 				return instances.ToArray();
 			}
 			else {
