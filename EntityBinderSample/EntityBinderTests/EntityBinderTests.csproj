@@ -55,9 +55,11 @@
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Ivonna">
-      <SpecificVersion>False</SpecificVersion>
+		<HintPath>..\lib\Ivonna.dll</HintPath>      
+		<SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Ivonna.Framework.MVC.3, Version=3.0.2.38152, Culture=neutral, processorArchitecture=MSIL">
+		<HintPath>..\lib\Ivonna.Framework.MVC.3.dll</HintPath>      
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
@@ -71,15 +73,20 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
     <Reference Include="TypeMock">
+		<HintPath>..\lib\TypeMock.dll</HintPath>      
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="TypeMock.ArrangeActAssert">
+		<HintPath>..\lib\TypeMock.ArrangeActAssert.dll</HintPath>      
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="CThru">
+		<HintPath>..\lib\CThru.dll</HintPath>      
       <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>

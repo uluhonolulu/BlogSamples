@@ -1,0 +1,1813 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ivonna</name>
+    </assembly>
+    <members>
+        <member name="T:Ivonna.Framework.RunOnWebAttribute">
+            <summary>
+            This attribute should be used on every fixture class. It should indicate the physical path to the Web, and the Web's virtual path, including the leading slash.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the RunOnWebAttribute with default values for the physical and virtual path.
+            </summary>
+            <remarks>In most cases, you would put your test assembly in the bin folder of your web site. It means that you should use the path to the parent folder as your physical path (this parameter can be relative or absolute). As for the virtual path, unless you use it somewhere in your application, it can be safely put to the root path. Note that it doesn't have to be the same as your actual virtual path of your web site on a web server.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the RunOnWebAttribute with the specified value of <see cref="P:Ivonna.Framework.RunOnWebAttribute.PhysicalPath"/> and <see cref="P:Ivonna.Framework.RunOnWebAttribute.VirtualPath"/>.
+            </summary>
+            <param name="physicalPath">The physical path to the Web root folder. Can be absolute or relative.</param>
+            <param name="virtualPath">The virtual path of your application. Does not have to be the same as the actual virtual path on your Web server (unless you use it in your code).</param>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the RunOnWebAttribute with default values for the physical and virtual path, optionally forcing reloading of the Asp.Net AppDomain each time the attribute is initialized. 
+            </summary>
+            <param name="forceAppDomainLoading">If set to true, forces creating a new Asp.Net AppDomain each time a new instance of this attribute is created.</param>
+            <remarks>Some test runners can cause unexpected unloading of the Asp.Net AppDomain, which can result in the <see cref="T:System.AppDomainUnloadedException"/> exception. You should use this overload to fix this problem.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the RunOnWebAttribute with the specified value of <see cref="P:Ivonna.Framework.RunOnWebAttribute.PhysicalPath"/> and <see cref="P:Ivonna.Framework.RunOnWebAttribute.VirtualPath"/>, optionally forcing reloading of the Asp.Net AppDomain each time the attribute is initialized. 
+            </summary>
+            <param name="physicalPath">The physical path to the Web root folder. Can be absolute or relative.</param>
+            <param name="virtualPath">The virtual path of your application. Does not have to be the same as the actual virtual path on your Web server (unless you use it in your code).</param>
+            <param name="forceAppDomainLoading">If set to true, forces creating a new Asp.Net AppDomain each time a new instance of this attribute is created.</param>
+            <remarks>Some test runners can cause unexpected unloading of the Asp.Net AppDomain, which can result in the <see cref="T:System.AppDomainUnloadedException"/> exception. You should use this overload to fix this problem.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.Execute">
+            <summary>
+            This method supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.RunOnWebAttribute.GetTestMethodStrings">
+            <summary>
+            The list of strings contained in test methods.
+            </summary>
+            <returns></returns>
+            <remarks>Ivonna has to find out which methods to run in the Asp.Net context. Typically, such methods are marked with attributes such as Test or Setup. This method returns a list of substrings used to distinguish such test-related attributes from the others. Override this method if you use a different framework (e.g. you can return "fact" and "context"). Note that these strings are case-insensitive.</remarks>
+        </member>
+        <member name="P:Ivonna.Framework.RunOnWebAttribute.PhysicalPath">
+            <summary>
+            The physical path to the Web site, e.g., "C:\InetPub\MySite".
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.RunOnWebAttribute.VirtualPath">
+            <summary>
+            The virtual path of the Web site, e.g., "/MySite".
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.RunOnWebAttribute.ConfigFileName">
+            <summary>
+            The name of the configuration file to use instead of web.config.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Spies.DbSpy">
+            <summary>
+            A helper class for testing or stubbing interaction with a database.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Spies.DbSpy.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates an instance of the DbSpy class using an output for displaying the sql commands being executed.
+            </summary>
+            <param name="output">A TextWriter instance to write the sql commands to.</param>
+        </member>
+        <member name="M:Ivonna.Spies.DbSpy.#ctor">
+            <summary>
+            Creates an instance of the DbSpy class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Spies.DbSpy.ShouldIntercept(CThru.InterceptInfo)">
+            <summary>
+             For internal use
+            </summary>
+             
+            <param name="info"></param>
+            <returns></returns>
+             <remarks>This method is called by the CThru engine.</remarks>
+        </member>
+        <member name="M:Ivonna.Spies.DbSpy.MethodBehavior(CThru.DuringCallbackEventArgs)">
+            <summary>
+            For internal use
+            </summary>
+            <param name="e"></param>
+            <remarks>This method is called by the CThru engine.</remarks>
+        </member>
+        <member name="P:Ivonna.Spies.DbSpy.Stub">
+            <summary>
+            True if the actual commands should not be executed; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.DbSpy.ExecutedCommands">
+            <summary>
+            The list of the commands that have been executed in the code under test so far.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.DbSpy.WriteSql">
+            <summary>
+            true, if the aspect should write the SQL command text to the specified output; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.DbSpy.WriteParameters">
+            <summary>
+            true, if the aspect should write the SQL command parameter values to the specified output; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.DbSpy.WriteStacktrace">
+            <summary>
+            true, if the aspect should write the stack trace for the command being executed to the specified output; otherwise, false.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.SessionExtensions">
+            <summary>
+            Extension methods for WebForms-related functionality
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.Get(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Executes a GET request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The request url, relative to the application root.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.Post(Ivonna.Framework.TestSession,System.String,System.Object)">
+            <summary>
+            Executes a POST request
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The page's address, relative to the application root.</param>
+            <param name="data">The POSTed data, encapsulated in an object.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.GetPage(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Executes a GET request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The page's address, relative to the application root.</param>
+            <returns>The Page object that is the result of the request.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.GetControl(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Loads an instance of a UserControl into a page, processes the HTTP request, and returns the loaded instance.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The Url of the control, relative to the root path.</param>
+            <returns>The processed control instance.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ProcessRequest(Ivonna.Framework.TestSession,Ivonna.Framework.WebForms.WebRequest)">
+            <summary>
+            Processes a request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="request">The request object to be processed.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ProcessPostback(Ivonna.Framework.TestSession)">
+            <summary>
+            Executes an autopostback request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ProcessPostback(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Executes a postback request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="invokerId">The Id of the control that invoked the postback.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ProcessPostback(Ivonna.Framework.TestSession,System.String,System.String)">
+            <summary>
+            Executes a postback request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="invokerId">The <see cref="P:System.Web.UI.Control.ID"/> or <see cref="P:System.Web.UI.Control.UniqueID"/> property value of the control that invoked the postback.</param>
+            <param name="eventArgument">The command argument for complex controls, such as a GridView control.</param>
+            <returns>The Page object that is the result of the request.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ProcessPostback(Ivonna.Framework.TestSession,System.Web.UI.Control)">
+            <summary>
+            Executes a postback request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="invoker">The control that invoked the postback.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.CreatePostRequest(Ivonna.Framework.TestSession)">
+            <summary>
+            Creates an autopostback request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <returns>The request that POSTs the last page retrieved in this session.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.CreatePostRequest(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Creates a postback request.
+            </summary>
+            <param name="session">The TestSession instance that creates the request.</param>
+            <param name="invokerId">The <see cref="P:System.Web.UI.Control.ID"/> or <see cref="P:System.Web.UI.Control.UniqueID"/> property value of the control that invoked the postback.</param>
+            <returns>The request that POSTs the last page retrieved in this session.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.CreatePostRequest(Ivonna.Framework.TestSession,System.String,System.String)">
+            <summary>
+            Creates a postback request.
+            </summary>
+            <param name="session">The TestSession instance that creates the request.</param>
+            <param name="invokerId">The <see cref="P:System.Web.UI.Control.ID"/> or <see cref="P:System.Web.UI.Control.UniqueID"/> property value of the control that invoked the postback.</param>
+            <param name="eventArgument">The command argument for complex controls, such as a GridView control.</param>
+            <returns>The request that POSTs the last page retrieved in this session.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ExecuteAjaxMethod``1(Ivonna.Framework.TestSession,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes a Page Method on the specified page with the specified arguments.
+            </summary>
+            <typeparam name="T">The type of the return value.</typeparam>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="path">The address of the page.</param>
+            <param name="methodName">The name of the method.</param>
+            <param name="arguments">The arguments of the method.</param>
+            <returns>The return value of the page method.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ExecuteAjaxMethod``1(Ivonna.Framework.TestSession,System.String,System.String,System.Object)">
+            <summary>
+            Executes a Page Method on the specified page with the specified arguments.
+            </summary>
+            <typeparam name="T">The type of the return value.</typeparam>
+            <param name="session"></param>
+            <param name="path">The address of the page.</param>
+            <param name="methodName">The name of the method.</param>
+            <param name="arguments">The arguments of the method, stored as properties of an anonymous class instance.</param>
+            <returns>The return value of the page method.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ExecuteAjaxMethod(Ivonna.Framework.TestSession,System.String,System.String,System.Object)">
+            <summary>
+            Executes a Page Method on the specified page with the specified arguments.
+            </summary>
+            <param name="session"></param>
+            <param name="path">The address of the page.</param>
+            <param name="methodName">The name of the method.</param>
+            <param name="arguments">The arguments of the method, stored as properties of an anonymous class instance.</param>
+            <returns>The return value of the page method.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.ExecuteAjaxMethod``1(Ivonna.Framework.TestSession,System.String,System.String)">
+            <summary>
+            Executes a Page Method on the specified page or a  with the specified arguments.
+            </summary>
+            <typeparam name="T">The type of the return value.</typeparam>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="path">The address of the page.</param>
+            <param name="methodName">The name of the method.</param>
+            <returns>The return value of the page method.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.SessionExtensions.CreateUpdatePanelRequest(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Creates an UpdatePanel request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="invokerId">The <see cref="P:System.Web.UI.Control.ID"/> or <see cref="P:System.Web.UI.Control.UniqueID"/> property value of the control that invoked the postback.</param>
+            <returns>A <see cref="T:Ivonna.Framework.UpdatePanelRequest"/> object that represents an asynchronous request originating from an UpdatePanel.</returns>
+        </member>
+        <member name="T:Ivonna.Framework.ExceptionSpy">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.ExceptionSpy.MethodBehavior(CThru.DuringCallbackEventArgs)">
+            <summary>
+            Infrastructure
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="P:Ivonna.Framework.ExceptionSpy.Exception">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Generic.JsonResponse">
+            <summary>
+            This class is used for testing requests that return a JSON-encoded value.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Generic.WebResponse">
+            <summary>
+            This class encapsulates the response from your test request. It allows you to inspect the return values such as headers, cookies, raw output etc.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.BaseResponse">
+            <summary>
+            This is a base class for custom Response classes. Use it if you want to test framework-agnostic (i.e., *.ashx) requests.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.BaseResponse.SaveCookies">
+            <summary>
+            Saves persistent cookies for loding in another browsing session.
+            </summary>
+            <returns>A <see cref="T:Ivonna.Framework.CookiePersister"/> instance containing the cookies.</returns>
+            <remarks>The cookies used in the current browsing session are added to the next request automatically. You should use this method only if you need to use the cookies in another session. <para>Only the cookies that are meant to be saved are included here.</para></remarks>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Status">
+            <summary>
+            The HTTP status of the request.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.StatusDescription">
+            <summary>
+            The HTTP status description of the request.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Headers">
+            <summary>
+            The headers returned from the server.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Body">
+            <summary>
+            The raw body bytes returned from the server.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.BodyAsString">
+            <summary>
+            The raw body string returned from the server.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Handler">
+            <summary>
+            The handler that corresponds to the requested handler.
+            </summary>
+            <remarks>Typically, this would be a Page object for an *.aspx request, and a generic handler for an *.ashx request.</remarks>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Url">
+            <summary>
+            The requested Url.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.RedirectLocation">
+            <summary>
+            Returns the new location for a redirect response (the "Location" header).
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseResponse.Cookies">
+            <summary>
+            The cookies returned from the server.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonResponse.#ctor(Ivonna.Core.WorkerRequest,System.Web.IHttpHandler)">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Framework.Generic.JsonResponse"/> class. 
+            </summary>
+            <param name="worker"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonResponse.Deserialize``1">
+            <summary>
+            Returns the deserialized result of a Web request.
+            </summary>
+            <typeparam name="T">The return type.</typeparam>
+            <returns>The result of a Web request.</returns>
+        </member>
+        <member name="T:Ivonna.Core.Aspects.HashStubber">
+            <summary>
+            This class is to avoid perecompilation each time testing is started
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.CookiePersister">
+            <summary>
+            Persists cookies across sessions.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.CookiePersister.#ctor(System.Web.HttpCookieCollection)">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Framework.CookiePersister"/> class.
+            </summary>
+            <param name="cookies">The cookies from the previous session.</param>
+        </member>
+        <member name="P:Ivonna.Framework.CookiePersister.Cookies">
+            <summary>
+            The cookies from the previous session.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.Aspects.ConfigMapPathFactorySwapper">
+            <summary>
+            This class allows to push a wrapper around the ConfigMapFactory into the newly created AppDomain. 
+            This wrapper acts as a trojan horse, performing some Ivonna-related initialization just after the new AppDomain has been created.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.WebRequest">
+            <summary>
+            This class encapsulates a request to the tested page. It allows you to set the request headers, cookies, and page events, as well as indicate the initiator of the postback.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.BaseRequest">
+            <summary>
+            This is a base class for custom Request classes. Use it if you want to test framework-agnostic (i.e., *.ashx) requests. 
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.BaseRequest.BOUNDARY">
+            <summary>
+            A boundary string used in multipart content.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.#ctor(System.String)">
+            <summary>
+            Creates a simple GET request.
+            </summary>
+            <param name="requestFilePath">The path of the requested page, relative to the Web root.</param>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.#ctor(System.String,System.String)">
+            <summary>
+            Creates a request with the specified method.
+            </summary>
+            <param name="requestFilePath">The path of the requested page, relative to the Web root.</param>
+            <param name="method">Request method, such as "GET" or "POST".</param>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.#ctor(System.String,System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Byte[])">
+            <summary>
+            Creates a BaseRequest object.
+            </summary>
+            <param name="requestFilePath">The path to the request, relative to the Web root.</param>
+            <param name="requestPathInfo">The path info string, such as in Default.aspx/pathinfo.</param>
+            <param name="requestQueryString">The query string (can be included in the path).</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+            <param name="requestHeaders">Request headers.</param>
+            <param name="requestBody">The POSTed bytes.</param>
+            <remarks>In most cases, you should use one of the overloads instead.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.CreateExceptionSpy">
+            <summary>
+            Creates an aspect for catching exceptions. Somewhat similar to Assert.Throws() in some test frameworks. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.LoadCookies(Ivonna.Framework.CookiePersister)">
+            <summary>
+            Loads the persisted cookies.
+            </summary>
+            <param name="cookies">A <see cref="T:Ivonna.Framework.CookiePersister"/> instance containing the cookies.</param>
+            <remarks>The cookies used in the current browsing session are added to the request automatically. You should use this method only if you need to use the cookies left from a previous session.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.PreparePostData">
+            <summary>
+            Prepares the body of the request.
+            </summary>
+            <remarks>This method is used by the framework and is not intended for using in client code.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.CreateResponse(Ivonna.Core.WorkerRequest)">
+            <summary>
+            Override this method in your derived Request class in order to create a properly typed Response instance.
+            </summary>
+            <param name="worker">The source of data for the Response instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.CreateNewRequest(System.String)">
+            <summary>
+            Override this method in your derived Request class in order to create a properly typed Request instance for redirection scenarios.
+            </summary>
+            <param name="url">The Url to be redirected to.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.CheckRequest">
+            <summary>
+            Checks for invalid request.
+            </summary>
+            <remarks>This method helps to identify problems with invalid setup. Use it when you get 400 Bad Request errors.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.BaseRequest.LoadFormValues(System.Object)">
+            <summary>
+            Loads POSTed values from a container.
+            </summary>
+            <param name="data">The object that contains POSTed values.</param>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.PathInfo">
+            <summary>
+            The path info string, such as in Default.aspx/pathinfo.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Path">
+            <summary>
+            The path to the requested page.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.QueryString">
+            <summary>
+            The query string used in the request.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Method">
+            <summary>
+            The request method (such as GET, or POST).
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.IsPostBack">
+            <summary>
+            Indicates whether this is a POST request.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.AutoRedirect">
+            <summary>
+            Allows to set the behavior in case of redirection. If true (default) a new GET request is automatically executed. If set to false, returns an empty response with the corresponding header and status.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.ThrowOnError">
+            <summary>
+            Indicates whether Ivonna should throw an exception if an illegal status code (i.e., 404) is returned.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Headers">
+            <summary>
+            The request headers
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Cookies">
+            <summary>
+            The request cookies.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.RawUrl">
+            <summary>
+            The full Url of the request, including the query string.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Body">
+            <summary>
+            The POSTed bytes.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.BodyAsString">
+            <summary>
+            The POSTed string
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.FormValues">
+            <summary>
+            The posted form values.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.BaseRequest.Files">
+            <summary>
+            The list of files to upload.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.WebRequest.#ctor(System.String)">
+            <summary>
+            Creates a simple GET request.
+            </summary>
+            <param name="requestFilePath">The path of the requested page, relative to the Web root.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.WebRequest.#ctor(System.String,System.String)">
+            <summary>
+            Creates a simple request with the predefined request method.
+            </summary>
+            <param name="requestFilePath">The path to the requested page, relative to the Web root.</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.WebRequest.#ctor(System.String,System.String,System.String,System.String,Ivonna.Framework.WebForms.WebResponse)">
+            <summary>
+            Creates a POST request originating from a particular control.
+            </summary>
+            <param name="requestFilePath">The path to the requested page, relative to the Web root.</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+            <param name="invokerId">The ID of the control that initiated the request.</param>
+            <param name="eventArgument">The event argument associated with the request.</param>
+            <param name="previousResponse">The previous request to take the form values from.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.WebRequest.#ctor(System.String,System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Byte[])">
+            <summary>
+            Creates a WebRequest object.
+            </summary>
+            <param name="requestFilePath">The path to the request, relative to the Web root.</param>
+            <param name="requestPathInfo">The path info string, such as in Default.aspx/pathinfo.</param>
+            <param name="requestQueryString">The query string (can be included in the path).</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+            <param name="requestHeaders">Request headers.</param>
+            <param name="requestBody">The POSTed bytes.</param>
+            <remarks>In most cases, you should use one of the overloads instead.</remarks>
+        </member>
+        <member name="P:Ivonna.Framework.WebForms.WebRequest.EventHandlers">
+            <summary>
+            This property allows to set the handlers for the page events.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.WebForms.WebRequest.PostbackControlId">
+            <summary>
+            The <see cref="P:System.Web.UI.Control.ID"/> or <see cref="P:System.Web.UI.Control.UniqueID"/> property value of the control that initiated the postback.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.WebForms.WebRequest.EventArgument">
+            <summary>
+            The event argument of the postback.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Generic.WebRequest">
+            <summary>
+            This class encapsulates a Web request to your Web application. 
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.WebRequest.#ctor(System.String)">
+            <summary>
+            Creates a simple GET request.
+            </summary>
+            <param name="requestFilePath">The path of the requested page, relative to the Web root.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.WebRequest.#ctor(System.String,System.String)">
+            <summary>
+            Creates a simple request with the predefined request method.
+            </summary>
+            <param name="requestFilePath">The path to the requested page, relative to the Web root.</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.WebRequest.#ctor(System.String,System.Object)">
+            <summary>
+            Creates a simple POST request.
+            </summary>
+            <param name="requestFilePath">The path to the requested page, relative to the Web root.</param>
+            <param name="data">The POSTed data, encapsulated in an object.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.WebRequest.#ctor(System.String,System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Byte[])">
+            <summary>
+            Creates a WebRequest object.
+            </summary>
+            <param name="requestFilePath">The path to the request, relative to the Web root.</param>
+            <param name="requestPathInfo">The path info string, such as in Default.aspx/pathinfo.</param>
+            <param name="requestQueryString">The query string (can be included in the path).</param>
+            <param name="requestMethod">Request method, such as "GET" or "POST".</param>
+            <param name="requestHeaders">Request headers.</param>
+            <param name="requestBody">The POSTed bytes.</param>
+            <remarks>In most cases, you should use one of the overloads instead.</remarks>
+        </member>
+        <member name="T:Ivonna.Framework.LoadRenderedXmlException">
+            <summary>
+            Occurs whenever an <see cref="T:System.Web.UI.IPostBackDataHandler"/> renders malformed xml.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.LoadRenderedXmlException.#ctor(System.Xml.XmlException,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Ivonna.Framework.LoadRenderedXmlException"/> class from a base exception.
+            </summary>
+            <param name="baseException">The base exception, thrown when an <see cref="T:System.Xml.XmlDocument"/> fails to load the source.</param>
+            <param name="source">The malformed source.</param>
+        </member>
+        <member name="M:Ivonna.Framework.LoadRenderedXmlException.ToString">
+            <summary>
+            Creates and returns a string representation of the current exception.
+            </summary>
+            <returns>A string representation of the current exception.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.LoadRenderedXmlException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserializes an instance of the <see cref="T:Ivonna.Framework.LoadRenderedXmlException"/> class.
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:Ivonna.Framework.LoadRenderedXmlException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Streams all the <see cref="T:Ivonna.Framework.LoadRenderedXmlException"/> properties into the <see cref="T:System.Runtime.Serialization.SerializationInfo"/> class for the given <see cref="T:System.Runtime.Serialization.StreamingContext"/>.
+            </summary>
+            <param name="info">The SerializationInfo object.</param>
+            <param name="context">The StreamingContext object.</param>
+        </member>
+        <member name="P:Ivonna.Framework.LoadRenderedXmlException.InvalidLine">
+            <summary>
+            The line containing the error.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.LoadRenderedXmlException.XmlSource">
+            <summary>
+            The xml fragment that caused the exception
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.InvalidContextException">
+            <summary>
+            Thrown when a Web-specific operation (such as creating an instance of a <see cref="T:Ivonna.Framework.TestSession"/> class, occurs in a non-web context, for example, if the RunOnWeb attribute is missing.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.InvalidContextException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InvalidContextException"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.InvalidContextException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InvalidContextException"/> class with a specified error message.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:Ivonna.Core.InvalidContextException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InvalidContextException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Core.InvalidContextException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InvalidContextException"/> class with serialized data.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:Ivonna.Core.Aspects.HandlerSpyAspect">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Aspects.HandlerSpyAspect.#ctor(System.Action{System.Web.IHttpHandler,System.Web.HttpContext})">
+            <summary>
+            Infrastructure
+            </summary>
+            <param name="callback">Action performed on assigning the HttpContext.Handler property.</param>
+        </member>
+        <member name="M:Ivonna.Core.Aspects.HandlerSpyAspect.ShouldIntercept(CThru.InterceptInfo)">
+            <summary>
+            Infrastructure
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Core.Aspects.HandlerSpyAspect.MethodBehavior(CThru.DuringCallbackEventArgs)">
+            <summary>
+            Infrastructure
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="P:Ivonna.Core.Aspects.HandlerSpyAspect.Handler">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper">
+            <summary>
+            Helps performing common operations related to the <see cref="T:System.Web.UI.WebControls.DetailsView"/> control: getting and setting field values and creating a postback request.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.#ctor(System.Web.UI.WebControls.DetailsView)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper"/> class.
+            </summary>
+            <param name="view">A <see cref="T:System.Web.UI.WebControls.DetailsView"/> instance the helper is attached to.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.SetFieldValue(System.String,System.String)">
+            <summary>
+            Sets a new value for the indicated field.
+            </summary>
+            <param name="fieldName">The name of the field.</param>
+            <param name="fieldValue">The string representation of the field value.</param>
+            <remarks>This method writes the <paramref name="fieldValue"/> to the corresponding textbox.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.GetFieldValue(System.String)">
+            <summary>
+            Obtains the value of the indicated field.
+            </summary>
+            <param name="fieldName">The name of the field.</param>
+            <returns>The string representation of the field value.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.GetCell(System.String)">
+            <summary>
+            Returns a cell corresponding to the indicated field
+            </summary>
+            <param name="fieldName"></param>
+            <returns>We return the cell in the second column that contains the actual field value.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.CreateRequest(Ivonna.Framework.TestSession,Ivonna.Framework.WebForms.ControlHelpers.CommandNames,System.Int32)">
+            <summary>
+            Creates a postback request that corresponds to one of the predefined commands.
+            </summary>
+            <param name="session">The current test session.</param>
+            <param name="command">The command name.</param>
+            <param name="rowNum">The number of the row, zero-based.</param>
+            <returns>The postback request.</returns>
+            <remarks>This method helps in situations when you want to test one of the predefined behaviors, such as Insert.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.CreateRequest(Ivonna.Framework.TestSession,Ivonna.Framework.WebForms.ControlHelpers.CommandNames)">
+            <summary>
+            Creates a postback request that corresponds to one of the predefined commands.
+            </summary>
+            <param name="session">The current test session.</param>
+            <param name="command">The command name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.DetailsViewHelper.CreateRequest(Ivonna.Framework.TestSession,System.String,System.Int32)">
+            <summary>
+            Creates a postback request that corresponds to a custom command.
+            </summary>
+            <param name="session">The current test session.</param>
+            <param name="commandName">The command name.</param>
+            <param name="rowNum">The number of the row, zero-based. </param>
+            <returns></returns>
+        </member>
+        <member name="T:Ivonna.Core.AspectRegistry">
+            <summary>
+            Enables control over various CThru aspects used in the framework initialization.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.AspectRegistry.InitAppDomainAspects">
+            <summary>
+             Controls the aspects added diring the AppDomain initialization phase.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.Utils.PathUtils">
+            <summary>
+            This class provides several path related utility methods.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.PathUtils.GetAppRelativePath(System.String,System.String,System.String)">
+            <summary>
+            Computes the relative path, based on the absolute one. Strips "http://hostname" away if needed.
+            </summary>
+            <param name="hostName"></param>
+            <param name="AppPath"></param>
+            <param name="AbsolutePath"></param>
+            <returns>The relative path that corresponds to the provided absolute path.</returns>
+        </member>
+        <member name="M:Ivonna.Core.Utils.PathUtils.GetAssemblyFolderPath">
+            <summary>
+            Gets the path to the Ivonna assembly.
+            </summary>
+            <remarks>This is a method that returns the correct path even if the assembly is copied to a shadow folder.</remarks>
+        </member>
+        <member name="T:Ivonna.Core.Utils.StringUtils">
+            <summary>
+            A static class that contains useful string-related extension methods.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.StringUtils.GetPostData(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Converst the collection of form values to the UrlEncoded string for POSTing.
+            </summary>
+            <param name="formValues"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ivonna.Framework.Generic.JsonRequest">
+            <summary>
+            This class encapsulates a Page Method request to the tested page, or a Web service request.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonRequest.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.Generic.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+            <param name="arguments">The argument list for the invoked method.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonRequest.#ctor(System.String,System.Object)">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.Generic.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+            <param name="arguments">The argument list for the invoked method, stored as properties of an anonymous class instance.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonRequest.#ctor(System.String)">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.Generic.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonRequest.PreparePostData">
+            <summary>
+            Prepares the body of the request.
+            </summary>
+            <remarks>This method is used by the framework and is not intended for using in client code.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.JsonRequest.CreateExceptionSpy">
+            <summary>
+            Creates an aspect for catching exceptions. Somewhat similar to Assert.Throws() in some test frameworks. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Ivonna.Core.Utils.FakePage">
+            <summary>
+            This class supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.FakePage.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Core.Utils.FakePage"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.FakePage.#ctor(System.Web.HttpContext)">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Core.Utils.FakePage"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.FakePage.VerifyRenderingInServerForm(System.Web.UI.Control)">
+            <summary>
+            This method supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+            <param name="control"></param>
+        </member>
+        <member name="M:Ivonna.Core.Utils.FakePage.LoadItemsFrom(System.Web.UI.Page)">
+            <summary>
+            Copy the values from the Items property of the source page.
+            </summary>
+            <param name="source">The page to copy items from.</param>
+        </member>
+        <member name="M:Ivonna.Core.Utils.FakePage.FrameworkInitialize">
+            <summary>
+            Initializes the control tree during page generation based on the declarative nature of the page. 
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.Utils.FakePage.ControlPath">
+            <summary>
+            The path to the control to be loaded into the page.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.Utils.FakePage.EnableEventValidation">
+            <summary>
+            This property supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Spies.MailSpy">
+            <summary>
+            A helper class for testing or stubbing the process of sending email messages.
+            </summary>
+            <remarks><para>When you test some code that sends an email message, you probably don't want the message to be sent. In order to achieve this, just create an instance of this class before running the tested code and add it to the CThru aspects collection.</para>
+            <para>Sometimes, however, you need to inspect the properties of the message that is supposed to be sent. You can use the <see cref="P:Ivonna.Spies.MailSpy.SentMessages"/> property to get the list of messages sent by your code.</para></remarks>
+        </member>
+        <member name="M:Ivonna.Spies.MailSpy.MethodBehavior(CThru.DuringCallbackEventArgs)">
+            <summary>
+            Captures the message to be sent and prevents it from being actually sent.
+            </summary>
+            <param name="e"></param>
+            <remarks>This method is called by the CThru engine.</remarks>
+        </member>
+        <member name="M:Ivonna.Spies.MailSpy.ShouldIntercept(CThru.InterceptInfo)">
+            <summary>
+            Checks whether the aspect needs to intercept a method.
+            </summary>
+            <param name="info">The information about the method.</param>
+            <returns>True, if this aspect should intercept the method; otherwise, false.</returns>
+            <remarks>This method is called by the CThru engine.</remarks>
+        </member>
+        <member name="P:Ivonna.Spies.MailSpy.SentMessages">
+            <summary>
+            The messages that have been sent by the tested code.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.SetupException">
+            <summary>
+            Thrown when the Ivonna assembly cannot be found at runtime. 
+            </summary>
+            <remarks>Typically, this exception is thrown when you haven't set the output path of your test project to the folder visible to your Web (e.g., the bin folder).</remarks>
+        </member>
+        <member name="M:Ivonna.Core.SetupException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.SetupException"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.SetupException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.SetupException"/> class with a specified error message.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:Ivonna.Core.SetupException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.SetupException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Core.SetupException.#ctor(System.Exception,Ivonna.Core.SetupException.MissingAssembly)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.SetupException"/> class with a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+            <param name="reason">The assembly that is missing.</param>
+        </member>
+        <member name="M:Ivonna.Core.SetupException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.SetupException"/> class with serialized data.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper">
+            <summary>
+            Helps performing common operations related to the GridView control: getting and setting field values and creating a postback request.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper.#ctor(System.Web.UI.WebControls.GridView)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper"/> class.
+            </summary>
+            <param name="view">A <see cref="T:System.Web.UI.WebControls.GridView"/> instance the helper is attached to.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper.GetFieldValue(System.String,System.Int32)">
+            <summary>
+            Obtains the value of the indicated field.
+            </summary>
+            <param name="fieldName">The name of the field.</param>
+            <param name="rowNum">The number of the row, zero-based.</param>
+            <returns>The string representation of the field value.</returns>
+            <remarks>This method simplifies obtaining a value of the bound column. For other types of columns, you have to retrieve the value manually, traversing the control tree.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper.SetFieldValue(System.String,System.Int32,System.String)">
+            <summary>
+            Sets a new value for the indicated field.
+            </summary>
+            <param name="fieldName">The name of the field.</param>
+            <param name="rowNum">The number of the row, zero-based.</param>
+            <param name="value">The string representation of the field value.</param>
+            <remarks>This method writes the <paramref name="value"/> to the corresponding textbox.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper.CreateRequest(Ivonna.Framework.TestSession,Ivonna.Framework.WebForms.ControlHelpers.CommandNames,System.Int32)">
+            <summary>
+            Creates a postback request corresponding to one of the predefined commands.
+            </summary>
+            <param name="session">The current test session.</param>
+            <param name="command">The command name.</param>
+            <param name="rowNum">The number of the row, zero-based.</param>
+            <returns>The postback request.</returns>
+            <remarks>This method helps in situations when you want to test one of the predefined behaviors, such as Edit, or Delete.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.GridViewHelper.CreateRequest(Ivonna.Framework.TestSession,System.String,System.Int32)">
+            <summary>
+            Creates a postback request corresponding to a custom command.
+            </summary>
+            <param name="session">The current test session.</param>
+            <param name="commandName">The command name.</param>
+            <param name="rowNum">The number of the row, zero-based.</param>
+            <returns>The postback request.</returns>
+            <remarks>This method helps in situations when you want to test clicking a button with a custom command 
+            (a CommandName property value that doesn't correspond to one of the predefined commands).</remarks>
+        </member>
+        <member name="T:Ivonna.Framework.UpdatePanelRequest">
+            <summary>
+            Encapsulates an AJAX request originating from a control inside an UpdatePanel.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.UpdatePanelRequest.#ctor(System.String,System.String,System.Web.UI.ScriptManager,Ivonna.Framework.WebForms.WebResponse)">
+            <summary>
+             Creates an instance of <see cref="T:Ivonna.Framework.UpdatePanelRequest"/>.
+            </summary>
+            <param name="requestFilePath">The path to the requested page, relative to the Web root.</param>
+            <param name="invokerId">The ID of the control that initiated the request.</param>
+            <param name="manager">The instance of the <see cref="T:System.Web.UI.ScriptManager"/> class used in AJAX calls.</param>
+            <param name="previousResponse">The <see cref="T:Ivonna.Framework.WebForms.WebResponse"/> object received from the previous call.</param>
+        </member>
+        <member name="M:Ivonna.Framework.UpdatePanelRequest.PreparePostData">
+            <summary>
+            Prepares the body of the request.
+            </summary>
+            <remarks>This method is used by the framework and is not intended for using in client code.</remarks>
+        </member>
+        <member name="T:Ivonna.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.CopyExpired">
+            <summary>
+              Looks up a localized string similar to This copy has expired. Please visit http://www.typemock.com/pricing to purchase Ivonna..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.EvaluationDaysLeft">
+            <summary>
+              Looks up a localized string similar to Ivonna evaluation: {0} days left..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.InstallationProblem">
+            <summary>
+              Looks up a localized string similar to Instalation problem. Please reinstall Ivonna..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.InvalidContext">
+            <summary>
+              Looks up a localized string similar to The method is executed in invalid context. Please ensure that you have enabled TypeMock Isolator, disable shadow copying in your test runner, and use the RunOnWeb atribute..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.InvalidOutputPath">
+            <summary>
+              Looks up a localized string similar to The Ivonna assembly could not be found by the test runner. Please ensure that the output path of the test project is set to a bin (or similar) folder of the Web under test, and you have the correct version of Ivonna..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.MissingMsTest">
+            <summary>
+              Looks up a localized string similar to &quot;Couldn&apos;t find the MsTest assembly. Have you disabled the test deployment (Test -&gt; Edit Test settings -&gt; Deployment -&gt; uncheck)?&quot;.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.No_control_with_such_id">
+            <summary>
+              Looks up a localized string similar to No control with such id.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.ServerError">
+            <summary>
+              Looks up a localized string similar to Server error: see the console output for details..
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.ServerReturned">
+            <summary>
+              Looks up a localized string similar to Server returned.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.TypemockNotInstalled">
+            <summary>
+              Looks up a localized string similar to TypeMock is not installed.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Properties.Resources.WebExceptionMessage">
+            <summary>
+              Looks up a localized string similar to An unhandled exception occurred during the execution of the current web request: .
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.WorkerRequest">
+            <summary>
+            Infrastructure class, doing all dirty work for request execution.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.WorkerRequest.GetPath">
+            <summary>
+            Infrastructure.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ivonna.Core.WorkerRequest.GetRequestUrl">
+            <summary>
+            Infrastructure
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Ivonna.Core.WorkerRequest.ResponseBody">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.WorkerRequest.ResponseStatus">
+            <summary>
+            Infrastructure.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.WorkerRequest.ResponseStatusDescription">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="P:Ivonna.Core.WorkerRequest.ResponseHeaders">
+            <summary>
+            Infrastructure
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Internals.PostbackManager">
+            <summary>
+            Used internally for calculating the post data values for data controls that implement the <see cref="T:System.Web.UI.IPostBackDataHandler"/> interface.
+            </summary>
+            <remarks>Use this class only if you want to use custom controls that implement the <see cref="T:System.Web.UI.IPostBackDataHandler"/> interface, and you are not satisfied with the default behavior.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.PostbackManager.#ctor(System.Web.UI.Control,System.Func{Ivonna.Core.Utils.FakePage})">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Framework.Internals.PostbackManager"/> class.
+            </summary>
+            <param name="parent">The root control that contains other controls to get the values from. Typically, this would be the page obtained from the previous request. Other controls can be used in advanced test scenarios.</param>
+            <param name="pageCreator">The delegate that creates an empty page for control rendering.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.PostbackManager.AddPostData(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Adds the form values to the collection.
+            </summary>
+            <param name="formValues">The collection to add to.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.PostbackManager.AddPostData(System.Collections.Specialized.NameValueCollection,System.Web.UI.Control)">
+            <summary>
+            Adds the form values from the parent control and its children to the collection.
+            </summary>
+            <param name="formValues">The collection to add to.</param>
+            <param name="parent">The parent control.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.PostbackManager.GetPostData(System.Web.UI.Control)">
+            <summary>
+            Obtains the form values from the control.
+            </summary>
+            <param name="control">The control to get the values from.</param>
+            <returns>A collection of form data values contained in this control.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.PostbackManager.ParseXml(System.String)">
+            <summary>
+            Parses the source string that represents a rendered control and retrieves the form values.
+            </summary>
+            <param name="source">The source string that represents a rendered control.</param>
+            <returns>The collection of form values.</returns>
+        </member>
+        <member name="P:Ivonna.Framework.Internals.PostbackManager.DataGetters">
+            <summary>
+            The set of custom methods for getting posted data values.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Internals.PostbackManager.PostDataGetter">
+            <summary>
+            Represents a method for getting post data from a control.
+            </summary>
+            <param name="control">The control to get posted values from.</param>
+            <returns>A collection of posted data values corresponding to this control.</returns>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.ControlHelpers.CommandNames">
+            <summary>
+            The command names found in the typical data controls, such as <see cref="T:System.Web.UI.WebControls.GridView"/>.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Select">
+            <summary>
+            The Select command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Edit">
+            <summary>
+            The Edit command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Update">
+            <summary>
+            The Update command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Delete">
+            <summary>
+            The Delete command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Insert">
+            <summary>
+            The Insert command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Cancel">
+            <summary>
+            The Cancel command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Page">
+            <summary>
+            The Page command name.
+            </summary>
+        </member>
+        <member name="F:Ivonna.Framework.WebForms.ControlHelpers.CommandNames.Sort">
+            <summary>
+            The Sort command name.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Licensing.LicenseException">
+            <summary>
+            Thrown when the trial version has expired, and no license code has been entered.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Licensing.LicenseException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Licensing.LicenseException"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Licensing.LicenseException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Licensing.LicenseException"/> class with a specified error message.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:Ivonna.Licensing.LicenseException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Licensing.LicenseException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Licensing.LicenseException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Licensing.LicenseException"/> class with serialized data.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:Ivonna.Framework.TestSession">
+            <summary>
+            This is the class that implements a browsing session and provides methods for processing a web request and obtaining the response object or the requested page.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Ivonna.Framework.TestSession"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.ProcessBaseRequest(Ivonna.Framework.BaseRequest)">
+            <summary>
+            Processes a request.
+            </summary>
+            <param name="request">The request object to be processed.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.SetUser(System.String,System.String[])">
+            <summary>
+            A helper method for impersonating all request in the current session.
+            </summary>
+            <param name="userName">The username of the user to impersonate.</param>
+            <param name="roles">A list of impersonated roles.</param>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.ConfigureModuleTypes(System.Action{System.Web.Configuration.HttpModuleActionCollection})">
+            <summary>
+            Allows to preconfigure the HttpModule classes used to process the request.
+            </summary>
+            <param name="action">The code to execute against the modules collection.</param>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.AddAspect``1(``0)">
+            <summary>
+             Adds a new CThru aspect to the aspect execution engine, effectively activating it.
+            </summary>
+            <param name="newAspect">The aspect to be added.</param>
+            <typeparam name="TAspect">The type of the added aspect.</typeparam>
+            <returns>The added aspect.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.Stub``1(System.Action{``0})">
+            <summary>
+            Stubs a method call.
+            </summary>
+            <typeparam name="TStubbedClass">The class for which the call is stubbed.</typeparam>
+            <param name="action">The stabbed method.</param>
+        </member>
+        <member name="M:Ivonna.Framework.TestSession.Stub``1(System.String)">
+            <summary>
+            Stubs a method call.
+            </summary>
+            <typeparam name="TStubbedClass">The class for which the call is stubbed.</typeparam>
+            <param name="methodname">The name of the stabbed method.</param>
+        </member>
+        <member name="P:Ivonna.Framework.TestSession.LastUrl">
+            <summary>
+            The last Url processed in this session.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.TestSession.User">
+            <summary>
+            An IPrincipal instance that impersonates all requests in the current session.
+            </summary>
+            <example>session.User = new System.Security.Principal.GenericPrincipal(new System.Security.Principal.GenericIdentity("someuser"), null)</example>
+        </member>
+        <member name="P:Ivonna.Framework.TestSession.LastRequest">
+            <summary>
+            The <see cref="T:Ivonna.Framework.BaseRequest"/> object used in the previous call.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.TestSession.LastResponse">
+            <summary>
+            The <see cref="T:Ivonna.Framework.BaseResponse"/> object received in the previous call.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.Utils.XmlUtils">
+            <summary>
+            Several utility methods that manipulate a rendered control so that it represents a valid xml. Added for compatibility with complex controls, such as those found in the Ajax Control Toolkit.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.XmlUtils.RemoveScript(System.String)">
+            <summary>
+            Removes javascript from the source string.
+            </summary>
+            <param name="badXml">The source string.</param>
+            <returns>The source string with all scripts replaced with whitespaces.</returns>
+        </member>
+        <member name="M:Ivonna.Core.Utils.XmlUtils.AddDtdAndWrap(System.String)">
+            <summary>
+            Fixes the xml so that it has a single root element and handles non-breaking spaces well.
+            </summary>
+            <param name="source">The source string.</param>
+            <returns>The source string enclosed in an xml tag with an inline dtd that defines the nbsp entity.</returns>
+        </member>
+        <member name="M:Ivonna.Core.Utils.XmlUtils.AddElementValue(System.Xml.XmlElement,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Adds the value of the specified element to the collection.
+            </summary>
+            <param name="element">The element that contains the value.</param>
+            <param name="data">The collection of the values.</param>
+        </member>
+        <member name="M:Ivonna.Core.Utils.XmlUtils.AddElementValue(System.Xml.XmlElement,System.Collections.Specialized.NameValueCollection,System.String)">
+            <summary>
+            Adds the value of the specified element to the collection.
+            </summary>
+            <param name="element">The element that contains the value.</param>
+            <param name="data">The collection of the values.</param>
+            <param name="value">The value to be added to the collection.</param>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.SessionExtensions.Get(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Executes a GET request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The request url, relative to the application root.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.SessionExtensions.Post(Ivonna.Framework.TestSession,System.String,System.Object)">
+            <summary>
+            Executes a POST request
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The page's address, relative to the application root.</param>
+            <param name="data">The POSTed data, encapsulated in an object.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.SessionExtensions.ProcessRequest(Ivonna.Framework.TestSession,Ivonna.Framework.Generic.WebRequest)">
+            <summary>
+            Processes a request.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="request">The request object to be processed.</param>
+            <returns>The response object that holds all relevant response data.</returns>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.SessionExtensions.GetJson``1(Ivonna.Framework.TestSession,System.String)">
+            <summary>
+            Executes a GET request, and deserialized the returned JSON result.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The page's address, relative to the application root.</param>
+            <typeparam name="TResult">The type of the expected response.</typeparam>
+            <returns>The deserialized result</returns>
+        </member>
+        <member name="M:Ivonna.Framework.Generic.SessionExtensions.PostJson``1(Ivonna.Framework.TestSession,System.String,System.Object,System.Boolean)">
+            <summary>
+            Executes a POST request, sending JSON-serialized data, and deserialized the returned JSON result.
+            </summary>
+            <param name="session">The TestSession instance that executes the request.</param>
+            <param name="url">The page's address, relative to the application root.</param>
+            <param name="arguments">The POSTed data.</param>
+            <param name="encodeRequest">True, if the request should be JSON-encoded; otherwise, false.</param>
+            <typeparam name="TResult">The type of the expected response.</typeparam>
+            <returns>The deserialized result</returns>
+        </member>
+        <member name="T:Ivonna.Framework.Internals.PostDataManager">
+            <summary>
+            Prepares the POSTed data.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Core.Utils.ControlFinder">
+            <summary>
+            An utility class that helps finding controls recursively.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.Utils.ControlFinder.FindControl(System.Web.UI.Control,System.Predicate{System.Web.UI.Control})">
+            <summary>
+            An utility method that helps finding controls recursively.
+            </summary>
+            <param name="parent">The parent control inside which the search is performed.</param>
+            <param name="comparer">The criterion for finding the required control.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Ivonna.Core.InstallationException">
+            <summary>
+            Thrown if Ivonna is not installed properly.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.InstallationException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InstallationException"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Core.InstallationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InstallationException"/> class with a specified error message.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:Ivonna.Core.InstallationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InstallationException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Core.InstallationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Core.InstallationException"/> class with serialized data.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper">
+            <summary>
+            A class that can be handy in finding a reference to a particular control.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper.#ctor(System.Web.UI.Control)">
+            <summary>
+            Creates a helper for a particular control. This helper can be used in searching for children of the control that is used as the constructor parameter.
+            </summary>
+            <param name="control">The parent control.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper.FindControl(System.Type)">
+            <summary>
+            Finds a child control by its type.
+            </summary>
+            <param name="type">The type of the child control you are looking for.</param>
+            <returns>The first control whose type matches the <paramref name="type"/> parameter.</returns>
+            <remarks>Sometimes you have only one control of a particular type on a page, and you don't want to search for it by its ID because you don't remember it. This is where this method can be used. Another possible situation is when you rename your control, your tests will break if you use its ID, but keep passing if you reference the control by its type.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper.FindControl(System.String)">
+            <summary>
+            Finds a child control by its ID.
+            </summary>
+            <param name="ID">The ID of the child control you are looking for.</param>
+            <returns>The first control whose ID matches the <paramref name="ID"/> parameter.</returns>
+            <remarks>This method is useful when you have a complex page, and the <see cref="M:System.Web.UI.Page.FindControl(System.String)"/> method doesn't find your control.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper.FindControl(System.String[])">
+            <summary>
+            Finds a child control recursively.
+            </summary>
+            <param name="ids">A sequence of control IDs that lets you find the desired control reference recursively.</param>
+            <returns>A reference to the control found using the sequence of IDs. See the Remarks section for details.</returns>
+            <remarks><para>In most cases, it is enough to indicate the ID of the control you need to find. 
+            Even when the <see cref="M:System.Web.UI.Page.FindControl(System.String)"/> method doesn't work, when the desired control is inside a naming container,
+            the similar <see cref="M:Ivonna.Framework.WebForms.ControlHelpers.ControlHelper.FindControl(System.String)"/>method lets you discover the required reference.</para>
+            <para>However, sometimes the ID of the control you are looking for is not unique. </para>
+            <example>For example, you might have two panels, "Panel1" and "Panel2", each containing a label called "Label1".
+            In this case, this method overload might help:
+            <code>Label label = (new ControlHelper(page)).FindControl("Panel1", "Label1") as Label;</code>
+            The code finds a control with ID "Panel1" on a page, and a control with ID "Label1" inside the found control.</example></remarks>
+        </member>
+        <member name="M:Ivonna.Core.DomainChecker.CheckAppDomain">
+            <summary>
+            Throws an exception if called in a non-Web environment
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.WebResponse">
+            <summary>
+            This class encapsulates the response from your test request. It allows you to inspect the return values such as headers, cookies, raw output etc.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.WebForms.WebResponse.Page">
+            <summary>
+            The Page object that corresponds to the requested page.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.JsonRequest">
+            <summary>
+            This class encapsulates a Page Method request to the tested page, or a Web service request.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonRequest.#ctor(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.WebForms.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+            <param name="methodName">The name of the method to be executed.</param>
+            <param name="arguments">The argument list for the invoked method.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonRequest.#ctor(System.String,System.String,System.Object)">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.WebForms.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+            <param name="methodName">The name of the method to be executed.</param>
+            <param name="arguments">The argument list for the invoked method, stored as properties of an anonymous class instance.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonRequest.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance of the <see cref="T:Ivonna.Framework.WebForms.JsonRequest"/>
+            </summary>
+            <param name="requestFilePath">The path to the page or Web service, relative to the Web root.</param>
+            <param name="methodName">The name of the method to be executed.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonRequest.PreparePostData">
+            <summary>
+            Prepares the body of the request.
+            </summary>
+            <remarks>This method is used by the framework and is not intended for using in client code.</remarks>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonRequest.CreateExceptionSpy">
+            <summary>
+            Creates an aspect for catching exceptions. Somewhat similar to Assert.Throws() in some test frameworks. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.ControlExtensions">
+            <summary>
+            Extension methods.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.ControlExtensions.FindRecursive``1(System.Web.UI.Control,System.String)">
+            <summary>
+            Finds a child control by its ID.
+            </summary>
+            <typeparam name="T">The type of the control to return.</typeparam>
+            <param name="parent">The parent control whose Controls collection is searched recursively.</param>
+            <param name="id">The ID of the child control you are looking for.</param>
+            <returns>The first control whose ID matches the <paramref name="id"/> parameter.</returns>
+            <remarks>This method is useful when you have a complex page, and the <see cref="M:System.Web.UI.Page.FindControl(System.String)"/> method doesn't find your control. This is extension method that </remarks>
+        </member>
+        <member name="T:Ivonna.Framework.UploadedFile">
+            <summary>
+            A class that holds information about a file being uploaded via a Web browser.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.UploadedFile.#ctor(System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            Creates an instance of <see cref="T:Ivonna.Framework.UploadedFile"/> class, using the specified control name, filename, content type, and content of the file to be uploaded.
+            </summary>
+            <param name="name">The UniqueId property of the control that uploads the file.</param>
+            <param name="filename">The FileName property of the uploaded file.</param>
+            <param name="contentType">The MIME content type of the file (e.g., text/plain).</param>
+            <param name="content">The byte array to be uploaded.</param>
+        </member>
+        <member name="P:Ivonna.Framework.UploadedFile.Name">
+            <summary>
+            The UniqueId property of the control that uploads the file.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.UploadedFile.FileName">
+            <summary>
+            The FileName property of the uploaded file.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.UploadedFile.ContentType">
+            <summary>
+            The MIME content type of the file (e.g., text/plain).
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.UploadedFile.Content">
+            <summary>
+            The byte array to be uploaded.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Spies.EventSpy">
+            <summary>
+            Helps verifying that a certain event has been invoked.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Spies.EventSpy.CatchEvent(System.Object,System.EventArgs)">
+            <summary>
+            The handler that should be attached to the event in order to verify that it has been raised.
+            </summary>
+            <param name="sender">The source of the event</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="P:Ivonna.Spies.EventSpy.Raised">
+            <summary>
+            True if the event has been raised; otherwise, false.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.EventSpy.Sender">
+            <summary>
+            Returns the event sender.
+            </summary>
+        </member>
+        <member name="P:Ivonna.Spies.EventSpy.Args">
+            <summary>
+            Returns the event arguments.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.Internals.HostAdapter">
+            <summary>
+            This class supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.Internals.HostAdapter.GetStatePersister">
+            <summary>
+            This method supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Ivonna.Framework.Internals.HostAdapter.FormValues">
+            <summary>
+            This property supports the Ivonna infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="T:Ivonna.Framework.WebException">
+            <summary>
+            Thrown when a request processing error occurs.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebException"/> class.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebException"/> class with a specified error message.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:Ivonna.Framework.WebException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Framework.WebException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="inner">The exception that is the cause of the current exception. If the innerException parameter is not a null reference, the current exception is raised in a catch block that handles the inner exception. </param>
+        </member>
+        <member name="M:Ivonna.Framework.WebException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ivonna.Framework.WebException"/> class with serialized data.
+            </summary>
+            <param name="info">The object that holds the serialized object data.</param>
+            <param name="context">The contextual information about the source or destination.</param>
+        </member>
+        <member name="T:Ivonna.Framework.WebForms.JsonResponse">
+            <summary>
+            This class is used for testing WebMethods.
+            </summary>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonResponse.#ctor(Ivonna.Core.WorkerRequest,System.Web.IHttpHandler)">
+            <summary>
+            Creates a new instance of the <see cref="T:Ivonna.Framework.WebForms.JsonResponse"/> class. 
+            </summary>
+            <param name="worker"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Ivonna.Framework.WebForms.JsonResponse.Deserialize``1">
+            <summary>
+            Returns the result of a WebMethod call.
+            </summary>
+            <typeparam name="T">The return type.</typeparam>
+            <returns>The result of a WebMethod call.</returns>
+        </member>
+        <member name="T:Ivonna.Framework.HandlerContainer">
+            <summary>
+            This class is a container for page event handlers.
+            </summary>
+            <remarks><para>Ivonna lets you handle the page lifecycle events. Since the page doesn not exist before a request is made, the handlers are added to a <see cref="T:Ivonna.Framework.HandlerContainer"/> instance:</para>
+            <code>request.EventHandlers.Page_Load = delegate(object sender, System.EventArgs e) {...}</code> 
+            <para>After a page is created the handlers are attached to the corresponding page events. For more information, see the Advanced Usage section.</para></remarks>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_PreInit">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.PreInit"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_Init">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.Init"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_InitComplete">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.InitComplete"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_PreLoad">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.PreLoad"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_Load">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.Load"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_LoadComplete">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.LoadComplete"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_DataBinding">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.DataBinding"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_PreRender">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.PreRender"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_PreRenderComplete">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.PreRenderComplete"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_SaveStateComplete">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Page.SaveStateComplete"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_Unload">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.Unload"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_Disposed">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.Control.Disposed"/> event
+            </summary>
+        </member>
+        <member name="P:Ivonna.Framework.HandlerContainer.Page_Error">
+            <summary>
+            A handler for the <see cref="E:System.Web.UI.TemplateControl.Error"/> event
+            </summary>
+        </member>
+    </members>
+</doc>
