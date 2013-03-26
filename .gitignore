@@ -1,3 +1,4 @@
 # git ignore file
 _IsolatorIntelliRunner
 TestResults
+AsyncSample
