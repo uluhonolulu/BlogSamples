@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Long running process sample</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="/Scripts/jquery.signalR-2.0.3.min.js"></script>
+	<script src="signalr/hubs"></script>
+	<script type="text/javascript">
+		var model = {}; //other relevant data is stored here
+		$(function() {
+			//connect to the Hub
+			$.connection.hub.start()
+				.done(function() {
+					model.ConnectionId = $.connection.hub.id;
+				});
+			
+			//we hope that by the time a user initiates the process, the hub connection has been established.
+			$('#starter').click(function() {
+				$.get('/DoMuchWork.ashx', model);
+			});
+			
+			//log messages coming through the hub
+			var logger = $.connection.logHub;
+			logger.client.log = function(message) {
+				$('<div/>').html(message).appendTo($('body'));
+			};
+		});
+	</script>
+</head>
+<body>
+	<a id="starter" style="cursor: pointer;">Start!</a>
+</body>
+</html>
