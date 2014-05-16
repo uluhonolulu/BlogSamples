@@ -6,8 +6,5 @@ using Microsoft.AspNet.SignalR;
 
 namespace LongRunningProcess {
 	public class LogHub : Hub {
-		public void Hello() {
-			Clients.All.hello();
-		}
 	}
 }
