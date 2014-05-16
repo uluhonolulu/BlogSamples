@@ -16,18 +16,21 @@
 			
 			//we hope that by the time a user initiates the process, the hub connection has been established.
 			$('#starter').click(function() {
-				$.get('/DoMuchWork.ashx', model);
+				$.get('/DoMuchWork.ashx', model, function (response) { log(response); });
 			});
 			
 			//log messages coming through the hub
 			var logger = $.connection.logHub;
-			logger.client.log = function(message) {
+			logger.client.log = log;
+
+			function log (message) {
 				$('<div/>').html(message).appendTo($('body'));
-			};
+			}
 		});
 	</script>
 </head>
-<body>
-	<a id="starter" style="cursor: pointer;">Start!</a>
-</body>
+	<body>
+		<div>In order to start processing, click "Start"</div>
+		<a id="starter" style="cursor: pointer; font-size: larger; font-weight: bold;">Start!</a>
+	</body>
 </html>

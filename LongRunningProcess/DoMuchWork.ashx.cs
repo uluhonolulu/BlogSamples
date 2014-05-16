@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 
@@ -12,12 +13,16 @@ namespace LongRunningProcess {
 	public class DoMuchWork : IHttpHandler {
 		private readonly IHubContext _hubContext = GlobalHost.ConnectionManager.GetHubContext<LogHub>();
 		public void ProcessRequest(HttpContext context) {
+			Task.Run(() =>
+				{
+					var connectionId = context.Request.QueryString["ConnectionId"];
+					for (int i = 0; i < 100; i++) {
+						Log(connectionId, "Progress: " + i.ToString());
+						Thread.Sleep(1000);
+					}
+				});
 			context.Response.ContentType = "text/plain";
-			var connectionId = context.Request.QueryString["ConnectionId"];
-			for (int i = 0; i < 100; i++) {
-				Log(connectionId, "Progress: " + i.ToString());
-				Thread.Sleep(1000);
-			}
+			context.Response.Write("Task started");
 		}
 
 		public void Log(string connectionId, string message) {
